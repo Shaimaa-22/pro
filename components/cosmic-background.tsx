@@ -1,18 +1,13 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
 
 /**
- * Lightweight canvas starfield + parallax nebula that spans the whole story scroll.
+ * Adaptive canvas starfield + static nebula that spans the whole story scroll.
  * Rendered once behind all sections (pointer-events: none).
  */
 export function CosmicBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const { scrollYProgress } = useScroll()
-  const nebula1Y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"])
-  const nebula2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"])
-  const hue = useTransform(scrollYProgress, [0, 0.5, 1], [0, 40, 90])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -21,6 +16,10 @@ export function CosmicBackground() {
     if (!ctx) return
 
     let raf = 0
+    let visible = true
+    let lastFrame = 0
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)")
+    let staticScene = motionPreference.matches
     let stars: { x: number; y: number; z: number; r: number; glow: boolean; hue: number }[] = []
     type Meteor = { x: number; y: number; len: number; speed: number; angle: number; life: number; hue: number }
     let meteors: Meteor[] = []
@@ -60,7 +59,14 @@ export function CosmicBackground() {
     }
 
     let t = 0
-    const draw = () => {
+    const draw = (now = 0) => {
+      raf = 0
+      if (document.hidden || !visible) return
+      if (!staticScene && now - lastFrame < 1000 / 30) {
+        raf = requestAnimationFrame(draw)
+        return
+      }
+      lastFrame = now
       t += 0.008
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.globalCompositeOperation = "lighter"
@@ -110,11 +116,32 @@ export function CosmicBackground() {
       }
 
       ctx.globalCompositeOperation = "source-over"
-      raf = requestAnimationFrame(draw)
+      if (!staticScene) raf = requestAnimationFrame(draw)
     }
-    draw()
+    const restart = () => {
+      cancelAnimationFrame(raf)
+      lastFrame = -Infinity
+      draw()
+    }
+    const onPreferenceChange = () => {
+      staticScene = motionPreference.matches
+      restart()
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      restart()
+    })
+    observer.observe(canvas)
+    document.addEventListener("visibilitychange", restart)
+    motionPreference.addEventListener("change", onPreferenceChange)
+    window.addEventListener("resize", restart)
+    restart()
 
     return () => {
+      observer.disconnect()
+      document.removeEventListener("visibilitychange", restart)
+      motionPreference.removeEventListener("change", onPreferenceChange)
+      window.removeEventListener("resize", restart)
       window.removeEventListener("resize", resize)
       cancelAnimationFrame(raf)
     }
@@ -123,24 +150,21 @@ export function CosmicBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <div className="absolute inset-0 bg-background" />
-      <motion.div
-        style={{ y: nebula1Y }}
+      <div
         className="absolute -left-1/4 top-0 h-[70vh] w-[70vh] rounded-full opacity-40 blur-[100px]"
       >
         <div className="h-full w-full rounded-full bg-primary/30" />
-      </motion.div>
-      <motion.div
-        style={{ y: nebula2Y }}
+      </div>
+      <div
         className="absolute -right-1/4 top-1/3 h-[60vh] w-[60vh] rounded-full opacity-30 blur-[110px]"
       >
         <div className="h-full w-full rounded-full bg-accent/40" />
-      </motion.div>
-      <motion.div
-        style={{ y: nebula1Y }}
+      </div>
+      <div
         className="absolute bottom-0 left-1/3 h-[50vh] w-[50vh] rounded-full opacity-20 blur-[120px]"
       >
         <div className="h-full w-full rounded-full bg-nebula/40" />
-      </motion.div>
+      </div>
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
       {/* subtle grid overlay */}
       <div

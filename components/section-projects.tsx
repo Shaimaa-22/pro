@@ -49,7 +49,7 @@ function ProjectCard({
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, transformPerspective: 1000 }}
-        className="group relative h-full overflow-hidden rounded-3xl border border-border bg-card/60 backdrop-blur-md"
+        className="group relative h-full overflow-hidden rounded-3xl border border-border bg-card/80"
       >
         {/* glow following accent */}
         <div

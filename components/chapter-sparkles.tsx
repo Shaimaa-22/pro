@@ -151,6 +151,10 @@ export function ChapterSparkles() {
     if (!ctx) return
 
     let raf = 0
+    let visible = true
+    let lastFrame = 0
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)")
+    let staticScene = motionPreference.matches
     let particles: Particle[] = []
 
     const makeParticle = (w: number, h: number): Particle => {
@@ -190,7 +194,14 @@ export function ChapterSparkles() {
     window.addEventListener("resize", resize)
 
     let t = 0
-    const draw = () => {
+    const draw = (now = 0) => {
+      raf = 0
+      if (document.hidden || !visible) return
+      if (!staticScene && now - lastFrame < 1000 / 30) {
+        raf = requestAnimationFrame(draw)
+        return
+      }
+      lastFrame = now
       t += 1
       const w = canvas.width
       const h = canvas.height
@@ -273,11 +284,32 @@ export function ChapterSparkles() {
       }
 
       ctx.globalCompositeOperation = "source-over"
-      raf = requestAnimationFrame(draw)
+      if (!staticScene) raf = requestAnimationFrame(draw)
     }
-    draw()
+    const restart = () => {
+      cancelAnimationFrame(raf)
+      lastFrame = -Infinity
+      draw()
+    }
+    const onPreferenceChange = () => {
+      staticScene = motionPreference.matches
+      restart()
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      restart()
+    })
+    observer.observe(canvas)
+    document.addEventListener("visibilitychange", restart)
+    motionPreference.addEventListener("change", onPreferenceChange)
+    window.addEventListener("resize", restart)
+    restart()
 
     return () => {
+      observer.disconnect()
+      document.removeEventListener("visibilitychange", restart)
+      motionPreference.removeEventListener("change", onPreferenceChange)
+      window.removeEventListener("resize", restart)
       window.removeEventListener("resize", resize)
       cancelAnimationFrame(raf)
     }
