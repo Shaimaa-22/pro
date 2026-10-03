@@ -50,12 +50,12 @@ export function SectionContact() {
                   rel="noopener noreferrer"
                   className="glass group flex items-center gap-4 rounded-2xl p-4 transition-transform hover:-translate-y-0.5"
                 >
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                     <c.icon className="h-5 w-5" />
                   </span>
                   <span className="min-w-0">
                     <span className="block text-xs text-muted-foreground">{c.label}</span>
-                    <span className="block truncate font-medium text-foreground">{c.value}</span>
+                    <span dir="ltr" className="block break-all text-sm font-medium text-foreground sm:text-base">{c.value}</span>
                   </span>
                 </a>
               </Reveal>

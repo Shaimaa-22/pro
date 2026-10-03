@@ -1,13 +1,13 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Code2, Layout, Server, Smartphone, Database, BrainCircuit, Cpu, Wrench } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
+import { Code2, Layout, Server, Smartphone, Database, BrainCircuit, Cpu, Wrench, ShieldCheck } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { ChapterLabel } from "@/components/chapter-label"
 import { Reveal, StaggerGroup, staggerItem } from "@/components/reveal"
-import { skillGroups } from "@/lib/content"
+import { skillGroups, type SkillGroupKey } from "@/lib/content"
 
-const icons: Record<string, typeof Code2> = {
+const icons: Record<SkillGroupKey, typeof Code2> = {
   programming: Code2,
   frontend: Layout,
   backend: Server,
@@ -16,10 +16,14 @@ const icons: Record<string, typeof Code2> = {
   ai: BrainCircuit,
   iot: Cpu,
   tools: Wrench,
+  testing: ShieldCheck,
 }
 
 const marquee = [
   "JavaScript",
+  "TypeScript",
+  "React",
+  "Next.js",
   "Python",
   "Dart",
   "Flutter",
@@ -31,20 +35,21 @@ const marquee = [
   "NLP",
   "Firebase",
   "Tailwind CSS",
-  "OpenAI",
+  "OpenAI API",
   "Git",
 ]
 
 export function SectionSkills() {
   const { t, dir } = useLanguage()
+  const reducedMotion = useReducedMotion()
   return (
-    <section id="skills" className="relative scroll-mt-24 py-28" dir={dir}>
+    <section id="skills" className="relative overflow-x-clip scroll-mt-24 py-20 sm:py-28" dir={dir}>
       {/* marquee band */}
-      <div className="mb-16 -rotate-1 border-y border-border bg-card/40 py-4 backdrop-blur-sm">
+      <div aria-hidden="true" className="mb-16 -rotate-1 border-y border-border bg-card/40 py-4 backdrop-blur-sm" dir="ltr">
         <div className="flex overflow-hidden">
           <motion.div
             className="flex shrink-0 items-center gap-8 pe-8 font-display text-2xl font-bold text-muted-foreground/40 sm:text-3xl"
-            animate={{ x: dir === "rtl" ? ["-50%", "0%"] : ["0%", "-50%"] }}
+            animate={reducedMotion ? { x: 0 } : { x: ["0%", "-50%"] }}
             transition={{ repeat: Number.POSITIVE_INFINITY, ease: "linear", duration: 22 }}
           >
             {[...marquee, ...marquee].map((s, i) => (
@@ -66,30 +71,32 @@ export function SectionSkills() {
           <p className="mt-3 max-w-xl text-pretty text-muted-foreground">{t.skills.subtitle}</p>
         </Reveal>
 
-        <StaggerGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerGroup className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => {
             const Icon = icons[group.key]
             return (
-              <motion.div
+              <motion.article
                 key={group.key}
                 variants={staggerItem}
-                className="glass group rounded-2xl p-5 transition-transform hover:-translate-y-1"
+                className="glass group min-w-0 rounded-2xl p-5 sm:p-6"
+                aria-labelledby={`skill-${group.key}`}
               >
                 <span className="mb-4 inline-grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary/20 to-nebula/20 text-primary transition-colors group-hover:from-primary group-hover:to-nebula group-hover:text-background">
-                  <Icon className="h-5 w-5" />
+                  <Icon aria-hidden="true" className="h-5 w-5" />
                 </span>
-                <h3 className="font-display text-sm font-bold">{t.skills.groups[group.key]}</h3>
-                <div className="mt-3 flex flex-wrap gap-1.5">
+                <h3 id={`skill-${group.key}`} className="font-display text-base font-bold">{t.skills.groups[group.key]}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.skills.descriptions[group.key]}</p>
+                <ul className="mt-4 flex flex-wrap gap-2" dir="ltr">
                   {group.items.map((item) => (
-                    <span
+                    <li
                       key={item}
-                      className="rounded-md border border-border bg-secondary/40 px-2 py-1 text-[11px] text-foreground/80"
+                      className="max-w-full break-words rounded-lg border border-border bg-secondary/40 px-2.5 py-1.5 text-xs text-foreground/90"
                     >
                       {item}
-                    </span>
+                    </li>
                   ))}
-                </div>
-              </motion.div>
+                </ul>
+              </motion.article>
             )
           })}
         </StaggerGroup>

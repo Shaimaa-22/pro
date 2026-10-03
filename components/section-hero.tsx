@@ -23,7 +23,7 @@ export function SectionHero() {
   }, [t.hero.roles.length])
 
   return (
-    <section id="home" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden">
+    <section id="home" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pb-28 pt-32 sm:pb-32">
       {/* chapter sparkles layer */}
       <div className="absolute inset-0">
         <ChapterSparkles />
@@ -34,7 +34,7 @@ export function SectionHero() {
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-10 mx-auto max-w-4xl px-6 text-center"
+        className="relative z-10 mx-auto w-full min-w-0 max-w-4xl px-6 text-center"
         dir={dir}
       >
         <motion.div
@@ -56,7 +56,7 @@ export function SectionHero() {
           <span className="text-gradient">{t.hero.name}</span>
         </motion.h1>
 
-        <div className="mt-4 flex h-9 items-center justify-center text-lg font-medium text-foreground sm:text-2xl">
+        <div className="mt-4 flex min-h-14 items-center justify-center text-lg font-medium text-foreground sm:min-h-9 sm:text-2xl">
           <AnimatePresence mode="wait">
             <motion.span
               key={roleIndex}
@@ -106,7 +106,7 @@ export function SectionHero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground"
+        className="absolute inset-x-6 bottom-6 z-10 flex flex-col items-center gap-2 text-center text-muted-foreground sm:bottom-8"
       >
         <span className="text-[11px] uppercase tracking-[0.2em]">{t.hero.scroll}</span>
         <motion.div

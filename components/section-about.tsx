@@ -8,8 +8,8 @@ import { Reveal } from "@/components/reveal"
 
 function CountUpStat({ value, label, delay }: { value: string; label: string; delay: number }) {
   return (
-    <Reveal delay={delay} className="glass rounded-2xl p-6 text-center">
-      <div className="font-display text-4xl font-bold text-gradient sm:text-5xl">{value}</div>
+    <Reveal delay={delay} className="glass min-w-0 rounded-2xl px-2 py-5 text-center sm:p-6">
+      <div className="font-display text-2xl font-bold text-gradient min-[400px]:text-3xl sm:text-5xl">{value}</div>
       <div className="mt-2 text-xs text-muted-foreground sm:text-sm">{label}</div>
     </Reveal>
   )
@@ -66,7 +66,7 @@ export function SectionAbout() {
         </motion.div>
       </div>
 
-      <div className="mt-14 grid grid-cols-3 gap-4">
+      <div className="mt-14 grid grid-cols-3 gap-2 sm:gap-4">
         {t.about.stats.map((s, i) => (
           <CountUpStat key={s.label} value={s.value} label={s.label} delay={i * 0.1} />
         ))}

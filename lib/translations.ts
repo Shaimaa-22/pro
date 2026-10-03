@@ -1,4 +1,4 @@
-import type { Lang, ProjectId } from "./content"
+import type { Lang, ProjectId, SkillGroupKey } from "./content"
 
 type Dict = typeof en
 
@@ -24,11 +24,10 @@ export const en = {
   },
   chapter: {
     origin: "Chapter 01 — Origin",
-    craft: "Chapter 02 — The Craft",
-    journey: "Chapter 03 — The Journey",
-    works: "Chapter 04 — The Works",
-    arsenal: "Chapter 05 — The Arsenal",
-    connect: "Chapter 06 — Let's Connect",
+    journey: "Chapter 02 — The Journey",
+    works: "Chapter 03 — The Works",
+    arsenal: "Chapter 04 — The Arsenal",
+    connect: "Chapter 05 — Let's Connect",
   },
   about: {
     title: "Where it all begins",
@@ -89,7 +88,15 @@ export const en = {
     title: "Featured Works",
     subtitle: "A constellation of things I've designed, engineered, and shipped.",
     viewProject: "View Project",
+    screenshot: "Website screenshot",
+    illustration: "Concept illustration",
     data: {
+      inverter: {
+        name: "Industrial Inverter Control",
+        tag: "Client Project · Full-Stack · IoT",
+        description:
+          "Built a web interface and backend for real-time industrial inverter control, connecting ESP32 hardware over MQTT. Includes authenticated access, live status updates, and command tracking from request to confirmation.",
+      },
       pizzaGo: {
         name: "Pizza Go",
         tag: "Full-Stack · IoT · Graduation Project",
@@ -135,18 +142,30 @@ export const en = {
     } as Record<ProjectId, { name: string; tag: string; description: string }>,
   },
   skills: {
-    title: "The Arsenal",
-    subtitle: "Tools and technologies I reach for.",
+    title: "Technical Skills",
+    subtitle: "The languages, tools, and practices I use across web, mobile, AI, and connected hardware projects.",
     groups: {
       programming: "Programming Languages",
       frontend: "Frontend Development",
       backend: "Backend Development",
       mobile: "Mobile Development",
-      databases: "Databases & Cloud",
+      databases: "Databases",
       ai: "AI & Machine Learning",
       iot: "IoT & Embedded Systems",
-      tools: "Tools & Practices",
-    } as Record<string, string>,
+      testing: "Testing & Quality",
+      tools: "Cloud & Developer Tools",
+    } satisfies Record<SkillGroupKey, string>,
+    descriptions: {
+      programming: "Languages for application logic, data handling, and device programming.",
+      frontend: "Responsive interfaces, reusable components, and bilingual layouts.",
+      backend: "APIs, authentication, and real-time communication between services.",
+      mobile: "Cross-platform apps with state management and separated application layers.",
+      databases: "Relational and document storage for application data.",
+      ai: "AI API integration, language processing, and model-based applications.",
+      iot: "Connecting physical devices to web-based control and monitoring.",
+      testing: "Checking command states, diagnosing API issues, and tracing bugs.",
+      tools: "Version control, hosting, and managed application services.",
+    } satisfies Record<SkillGroupKey, string>,
   },
   contact: {
     title: "Let's build something",
@@ -191,11 +210,10 @@ export const ar: Dict = {
   },
   chapter: {
     origin: "الفصل الأول — البداية",
-    craft: "الفصل الثاني — الحِرفة",
-    journey: "الفصل الثالث — الرحلة",
-    works: "الفصل الرابع — الأعمال",
-    arsenal: "الفصل الخامس — الأدوات",
-    connect: "الفصل السادس — لنتواصل",
+    journey: "الفصل الثاني — الرحلة",
+    works: "الفصل الثالث — الأعمال",
+    arsenal: "الفصل الرابع — الأدوات",
+    connect: "الفصل الخامس — لنتواصل",
   },
   about: {
     title: "من هنا تبدأ الحكاية",
@@ -256,7 +274,15 @@ export const ar: Dict = {
     title: "أبرز الأعمال",
     subtitle: "مجموعة من الأشياء التي صممتها وهندستها وأطلقتها.",
     viewProject: "عرض المشروع",
+    screenshot: "صورة من الموقع",
+    illustration: "صورة توضيحية",
     data: {
+      inverter: {
+        name: "نظام التحكم بالإنفرتر الصناعي",
+        tag: "مشروع لعميل · Full-Stack · إنترنت الأشياء",
+        description:
+          "طوّرت واجهة ويب وخادماً للتحكم اللحظي بإنفرتر صناعي، مع ربط أجهزة ESP32 عبر MQTT. يتضمن النظام تسجيل دخول ومتابعة مباشرة للحالة وتتبع الأوامر من إرسال الطلب حتى تأكيد تنفيذه.",
+      },
       pizzaGo: {
         name: "Pizza Go",
         tag: "Full-Stack · إنترنت الأشياء · مشروع التخرج",
@@ -302,17 +328,29 @@ export const ar: Dict = {
     },
   },
   skills: {
-    title: "الأدوات",
-    subtitle: "التقنيات والأدوات التي أعتمد عليها.",
+    title: "المهارات التقنية",
+    subtitle: "اللغات والأدوات والممارسات التي أستخدمها في مشاريع الويب والموبايل والذكاء الاصطناعي والأنظمة المتصلة.",
     groups: {
       programming: "لغات البرمجة",
       frontend: "تطوير الواجهات الأمامية",
       backend: "تطوير الخلفية",
       mobile: "تطوير الموبايل",
-      databases: "قواعد البيانات والسحابة",
+      databases: "قواعد البيانات",
       ai: "الذكاء الاصطناعي وتعلّم الآلة",
       iot: "إنترنت الأشياء والأنظمة المدمجة",
-      tools: "الأدوات والممارسات",
+      testing: "الاختبار والجودة",
+      tools: "السحابة وأدوات التطوير",
+    },
+    descriptions: {
+      programming: "لغات لبناء منطق التطبيقات ومعالجة البيانات وبرمجة الأجهزة.",
+      frontend: "واجهات متجاوبة ومكونات قابلة لإعادة الاستخدام وتصميم ثنائي اللغة.",
+      backend: "واجهات API والمصادقة والتواصل اللحظي بين الخدمات.",
+      mobile: "تطبيقات متعددة المنصات مع إدارة الحالة وفصل طبقات التطبيق.",
+      databases: "تخزين بيانات التطبيقات في قواعد علائقية وقواعد مستندات.",
+      ai: "دمج خدمات الذكاء الاصطناعي ومعالجة اللغة وبناء تطبيقات تعتمد على النماذج.",
+      iot: "ربط الأجهزة الفعلية بواجهات تحكم ومراقبة عبر الويب.",
+      testing: "فحص حالات الأوامر وتشخيص مشاكل واجهات API وتتبع الأخطاء.",
+      tools: "إدارة إصدارات الكود والاستضافة والخدمات السحابية للتطبيقات.",
     },
   },
   contact: {
