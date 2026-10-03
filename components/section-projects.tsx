@@ -22,7 +22,7 @@ function ProjectCard({
   meta: (typeof projectMeta)[number]
   index: number
 }) {
-  const { t, lang, dir } = useLanguage()
+  const { t, lang } = useLanguage()
   const data = t.projects.data[meta.id]
   const ref = useRef<HTMLDivElement>(null)
 
@@ -59,29 +59,35 @@ function ProjectCard({
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
               src={meta.image || "/placeholder.svg"}
-              alt={data.name}
+              alt={`${data.name} — ${meta.imageKind === "screenshot" ? t.projects.screenshot : t.projects.illustration}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              className={meta.imageKind === "screenshot" ? "object-contain bg-background" : "object-cover transition-transform duration-700 group-hover:scale-105"}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-            <span className="absolute start-4 top-4 rounded-full border border-border bg-background/70 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-primary backdrop-blur-md">
-              {data.tag}
+            <span className="absolute bottom-3 end-3 rounded-full bg-background/90 px-3 py-1 text-[10px] text-foreground/80">
+              {meta.imageKind === "screenshot" ? t.projects.screenshot : t.projects.illustration}
             </span>
           </div>
 
           <div className="p-6">
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-wider text-primary">{data.tag}</p>
             <div className="flex items-start justify-between gap-3">
               <h3 className="font-display text-xl font-bold">{data.name}</h3>
-              <a
-                href={meta.links[0]?.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${t.projects.viewProject}: ${data.name}`}
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {meta.links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target={link.href.startsWith("https://") ? "_blank" : undefined}
+                  rel={link.href.startsWith("https://") ? "noopener noreferrer" : undefined}
+                  aria-label={`${link.label[lang]}: ${data.name}`}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-foreground transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >
+                  {link.label[lang]}
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0" />
+                </a>
+              ))}
             </div>
             <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">{data.description}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">

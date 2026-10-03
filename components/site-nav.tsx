@@ -109,7 +109,7 @@ export function SiteNav() {
             </a>
             <button
               onClick={toggle}
-              className="flex items-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+              className="flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
               aria-label="Toggle language"
             >
               <Languages className="h-3.5 w-3.5" />
@@ -117,8 +117,10 @@ export function SiteNav() {
             </button>
             <button
               onClick={() => setOpen((o) => !o)}
-              className="grid h-9 w-9 place-items-center rounded-full border border-border bg-secondary/50 text-foreground lg:hidden"
-              aria-label="Menu"
+              className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-secondary/50 text-foreground lg:hidden"
+              aria-label={lang === "ar" ? "القائمة" : "Menu"}
+              aria-expanded={open}
+              aria-controls={open ? "mobile-navigation" : undefined}
             >
               {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -138,9 +140,10 @@ export function SiteNav() {
           >
             <div className="absolute inset-0 bg-background/80 backdrop-blur-xl" onClick={() => setOpen(false)} />
             <motion.ul
+              id="mobile-navigation"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              className="glass absolute inset-x-4 top-24 flex flex-col gap-1 rounded-3xl p-4"
+              className="glass absolute inset-x-4 top-24 flex max-h-[calc(100dvh-7rem)] flex-col gap-1 overflow-y-auto rounded-3xl p-4"
             >
               {sections.map((id) => (
                 <li key={id}>
