@@ -97,6 +97,12 @@ export const en = {
         description:
           "Built a web interface and backend for real-time industrial inverter control, connecting ESP32 hardware over MQTT. Includes authenticated access, live status updates, and command tracking from request to confirmation.",
       },
+      power: {
+        name: "Power — Engineering & Electrical Solutions",
+        tag: "Client Project · Corporate Website · Multilingual",
+        description:
+          "Developed a responsive company website in Arabic, English, and Hebrew, showcasing industrial and residential electrical services, solar energy, and smart-home solutions. Built with React and deployed on Cloudflare Pages, with dedicated service pages and contact options.",
+      },
       pizzaGo: {
         name: "Pizza Go",
         tag: "Full-Stack · IoT · Graduation Project",
@@ -282,6 +288,12 @@ export const ar: Dict = {
         tag: "مشروع لعميل · Full-Stack · إنترنت الأشياء",
         description:
           "طوّرت واجهة ويب وخادماً للتحكم اللحظي بإنفرتر صناعي، مع ربط أجهزة ESP32 عبر MQTT. يتضمن النظام تسجيل دخول ومتابعة مباشرة للحالة وتتبع الأوامر من إرسال الطلب حتى تأكيد تنفيذه.",
+      },
+      power: {
+        name: "Power — للهندسة والحلول الكهربائية",
+        tag: "مشروع لعميل · موقع شركة · متعدد اللغات",
+        description:
+          "طوّرت موقع شركة متجاوباً بالعربية والإنجليزية والعبرية، يعرض خدمات الكهرباء الصناعية والمنزلية والطاقة الشمسية وحلول المنازل الذكية. بُني باستخدام React ونُشر على Cloudflare Pages، مع صفحات تفصيلية للخدمات وخيارات للتواصل.",
       },
       pizzaGo: {
         name: "Pizza Go",

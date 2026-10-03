@@ -2,6 +2,7 @@ export type Lang = "en" | "ar"
 
 export type ProjectId =
   | "inverter"
+  | "power"
   | "pizzaGo"
   | "whereShouldIGo"
   | "qvista"
@@ -32,6 +33,17 @@ export const projectMeta: ProjectMeta[] = [
       { label: { en: "Backend Code", ar: "كود الخادم" }, href: "https://github.com/Shaimaa-22/Inverter_backend" },
     ],
     accent: "primary",
+  },
+  {
+    id: "power",
+    image: "/projects/power-live.jpg",
+    imageKind: "screenshot",
+    stack: ["React", "JavaScript", "Vite", "CSS", "Cloudflare Pages"],
+    links: [
+      { label: { en: "Visit Website", ar: "زيارة الموقع" }, href: "https://power-elec-site.pages.dev/" },
+      { label: { en: "Source Code", ar: "الكود المصدري" }, href: "https://github.com/Shaimaa-22/power-frontend" },
+    ],
+    accent: "aurora",
   },
   {
     id: "pizzaGo",
